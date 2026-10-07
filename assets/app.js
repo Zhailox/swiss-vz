@@ -207,7 +207,7 @@ var APP = (function() {
             '<div style="width:48px;height:48px;border-radius:12px;background:' + (t.color || 'var(--accent)') + ';display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-family:\'Montserrat\';">' + (t.avatar_iniciales || 'DV') + '</div>' +
             '<div class="talent-info">' +
               '<h3>' + t.nombre + '</h3>' +
-              '<div class="badge badge-verified">' + getIcon('shield-check', 14) + ' Verificado por Swiss-VZ</div>' +
+              '<div class="badge badge-verified">' + getIcon('shield-check', 14) + ' ' + (window.I18N ? window.I18N.t('badge_verified') : 'Verificado por Swiss-VZ') + '</div>' +
             '</div>' +
           '</div>' +
           '<div class="talent-rate">$' + t.tarifa_hora + '<span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/hr</span></div>' +
@@ -215,8 +215,8 @@ var APP = (function() {
         '<p style="font-size:0.88rem;margin:12px 0;line-height:1.5;">' + (t.bio || 'Desarrollador de software con experiencia comprobada.') + '</p>' +
         '<div class="talent-skills-wrap">' + tagsHtml + '</div>' +
         '<div style="display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);">' +
-          '<div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-secondary);">' + getIcon('star', 15) + ' 4.9 (45+ reseñas)</div>' +
-          '<button class="btn-cta-primary" style="padding:10px 18px;font-size:0.85rem;" onclick="APP.proposeContract(\'' + t.id + '\',\'' + t.nombre + '\')">Contratar en Escrow</button>' +
+          '<div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-secondary);">' + getIcon('star', 15) + ' 4.9 (45+ ' + (window.I18N && window.I18N.getLang() === 'de' ? 'Bewertungen' : 'reseñas') + ')</div>' +
+          '<button class="btn-cta-primary" style="padding:10px 18px;font-size:0.85rem;" onclick="APP.proposeContract(\'' + t.id + '\',\'' + t.nombre + '\')">' + (window.I18N ? window.I18N.t('btn_hire') : 'Contratar en Escrow') + '</button>' +
         '</div>' +
       '</div>';
     });
@@ -500,12 +500,26 @@ var APP = (function() {
     showToast('success', 'Propuesta Enviada', 'Se ha notificado a ' + devName + '. Los fondos quedarán reservados tras la firma.');
   }
 
+  function setLang(lang) {
+    if (window.I18N) {
+      window.I18N.setLang(lang);
+      var msg = lang === 'de' ? 'Sprache auf Deutsch (Schweiz) geändert.' : 'Idioma cambiado a Español.';
+      showToast('info', lang === 'de' ? 'Sprache' : 'Idioma', msg);
+    }
+  }
+
+  function refreshCurrentView() {
+    showView(state.currentView);
+  }
+
   return {
     getIcon: getIcon,
     enterApp: enterApp,
     exitToLanding: exitToLanding,
     setRole: setRole,
     showView: showView,
+    setLang: setLang,
+    refreshCurrentView: refreshCurrentView,
     renderTalentsList: renderTalentsList,
     renderProjectRoadmap: renderProjectRoadmap,
     renderTransactionsTable: renderTransactionsTable,
