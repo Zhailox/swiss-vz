@@ -75,11 +75,12 @@ function doPost(e) {
       case "getTalentos":
         var todosTalentos = SHEETS_DB.filterRecords("Usuarios", "rol", "dev");
         var skillFilter = payload.skill ? String(payload.skill).toLowerCase() : "";
-        var tarifaMax = Number(payload.tarifaMax) || 9999;
+        var tarifaMax = Number(payload.tarifaMax) || 999999;
 
         var filtrados = todosTalentos.filter(function(dev) {
           var cumpleSkill = !skillFilter || String(dev.skills).toLowerCase().indexOf(skillFilter) !== -1;
-          var cumpleTarifa = (Number(dev.tarifa_hora) || 0) <= tarifaMax;
+          var tarifa = Number(dev.tarifa_hito || dev.tarifa_hora) || 0;
+          var cumpleTarifa = tarifa <= tarifaMax;
           return cumpleSkill && cumpleTarifa;
         });
 

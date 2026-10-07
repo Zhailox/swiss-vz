@@ -1063,38 +1063,161 @@ svg {
   box-shadow: var(--shadow-lg);
 }
 
+/* CONTACT BAR EN CARDS DE TALENTO */
+.talent-contact-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 18px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+}
+.talent-contact-bar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity var(--transition);
+}
+.talent-contact-bar a:hover {
+  opacity: 0.85;
+}
+
 /* RESPONSIVE BREAKPOINTS */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .hero-stats-bar, .step-grid, .talent-cards-preview, .trust-grid, .footer-cols {
     grid-template-columns: repeat(2, 1fr);
   }
   .prog-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .sidebar {
+    width: 240px;
+  }
 }
+
 @media (max-width: 768px) {
   .hero-stats-bar, .step-grid, .talent-cards-preview, .trust-grid, .footer-cols {
     grid-template-columns: 1fr;
   }
   .land-nav {
-    padding: 16px 24px;
+    padding: 16px 20px;
   }
   .land-links {
     display: none;
+  }
+  .land-hero {
+    padding: 56px 16px 48px;
+  }
+  .land-section {
+    padding: 56px 20px;
+  }
+  .flow-diagram {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+  .flow-node {
+    width: 100%;
+  }
+
+  /* App Shell Mobile */
+  .mobile-menu-btn {
+    display: inline-flex !important;
+  }
+  .topbar {
+    padding: 12px 16px;
+    height: auto;
+    min-height: var(--topbar-h);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topbar-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .role-switch {
+    transform: scale(0.9);
+    transform-origin: right center;
   }
   .main-layout {
     flex-direction: column;
   }
   .sidebar {
     width: 100%;
-    height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
+  .sidebar.mobile-collapsed .sidebar-scroll {
+    display: none;
+  }
   .central-view {
-    padding: 24px 16px;
+    padding: 24px 16px 48px;
+  }
+  .card-talent {
+    padding: 20px 20px;
+  }
+  .talent-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .talent-rate {
+    margin-top: 8px;
+  }
+  .escrow-hero-card {
+    padding: 24px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .escrow-hero-card > div:last-child {
+    text-align: left !important;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
   }
   .prog-stats-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .milestone-item {
+    padding: 18px 16px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-badge {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+  }
+  .hero-ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-cta-primary, .btn-cta-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  .stat-val {
+    font-size: 1.8rem;
+  }
+  .toast-wrap {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+  }
+  .toast-msg {
+    min-width: unset;
+    width: 100%;
   }
 }

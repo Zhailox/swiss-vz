@@ -6,7 +6,7 @@
 var APP = (function() {
   // Estado reactivo central
   var state = {
-    currentRole: 'cliente', // 'cliente' | 'dev'
+    currentRole: localStorage.getItem('SWISSVZ_ROLE') || 'cliente', // 'cliente' | 'dev'
     currentView: 'search',  // 'search' | 'roadmap' | 'transactions' | 'profile'
     activeProjectId: 'PRJ-101',
     activeTalentFilter: '',
@@ -57,6 +57,12 @@ var APP = (function() {
         return '<svg ' + s + '><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>';
       case 'chevron-right':
         return '<svg ' + s + '><polyline points="9 18 15 12 9 6"></polyline></svg>';
+      case 'mail':
+        return '<svg ' + s + '><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>';
+      case 'phone':
+        return '<svg ' + s + '><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>';
+      case 'menu':
+        return '<svg ' + s + '><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
       default:
         return '<svg ' + s + '><circle cx="12" cy="12" r="10"></circle></svg>';
     }
@@ -99,8 +105,19 @@ var APP = (function() {
   function enterApp(targetView) {
     document.getElementById('landing').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
-    showView(targetView || 'search');
-    showToast('success', 'Sesión Iniciada', 'Bienvenido a Swiss-VZ Connect. Infraestructura verificada en Ginebra.');
+
+    // Si es desarrollador y no se especificó vista o se pidió search, redirigir a roadmap
+    if (!targetView) {
+      targetView = (state.currentRole === 'dev') ? 'roadmap' : 'search';
+    } else if (state.currentRole === 'dev' && targetView === 'search') {
+      targetView = 'roadmap';
+    }
+
+    setRole(state.currentRole);
+    showView(targetView);
+
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+    showToast('success', isDe ? 'Sitzung gestartet' : 'Sesión Iniciada', isDe ? 'Willkommen bei Swiss-VZ Connect.' : 'Bienvenido a Swiss-VZ Connect. Infraestructura verificada en Ginebra.');
   }
 
   function exitToLanding() {
@@ -112,6 +129,8 @@ var APP = (function() {
   // Selector de Rol
   function setRole(role) {
     state.currentRole = role;
+    localStorage.setItem('SWISSVZ_ROLE', role);
+
     var clientBtn = document.getElementById('roleClient');
     var devBtn = document.getElementById('roleDev');
     if (clientBtn && devBtn) {
@@ -124,24 +143,35 @@ var APP = (function() {
     var sidebarRole = document.getElementById('sidebarRole');
     var searchTalentNavItem = document.getElementById('navItemSearch');
 
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+
     if (role === 'cliente') {
       if (sidebarAvatar) sidebarAvatar.textContent = 'CL';
       if (sidebarName) sidebarName.textContent = 'ClaraLens AG';
-      if (sidebarRole) sidebarRole.textContent = 'Startup Médica · Zúrich';
+      if (sidebarRole) sidebarRole.textContent = isDe ? 'MedTech Start-up · Zürich' : 'Startup Médica · Zúrich';
       if (searchTalentNavItem) searchTalentNavItem.classList.remove('hidden');
-      showToast('info', 'Modo Cliente Activado', 'Operando como ClaraLens AG (Zúrich). Puedes liberar hitos y contratar.');
+      showToast('info', isDe ? 'Auftraggeber-Modus' : 'Modo Cliente Activado', isDe ? 'Aktiv als ClaraLens AG (Zürich). Sie können Meilensteine freigeben.' : 'Operando como ClaraLens AG (Zúrich). Puedes liberar hitos y contratar.');
     } else {
       if (sidebarAvatar) sidebarAvatar.textContent = 'AR';
       if (sidebarName) sidebarName.textContent = 'Alejandro Rodríguez';
-      if (sidebarRole) sidebarRole.textContent = 'Dev Full-Stack · Caracas';
+      if (sidebarRole) sidebarRole.textContent = isDe ? 'Senior Full-Stack · Caracas' : 'Dev Full-Stack · Caracas';
       if (searchTalentNavItem) searchTalentNavItem.classList.add('hidden');
       if (state.currentView === 'search') showView('roadmap');
-      showToast('info', 'Modo Desarrollador Activado', 'Operando como Alejandro Rodríguez. Vista de custodia y hoja de ruta.');
+      showToast('info', isDe ? 'Entwickler-Modus' : 'Modo Desarrollador Activado', isDe ? 'Aktiv als Alejandro Rodríguez. Treuhand- & Roadmap-Ansicht.' : 'Operando como Alejandro Rodríguez. Vista de custodia y hoja de ruta.');
     }
 
     // Refrescar vista activa
     if (state.currentView === 'roadmap') {
       renderProjectRoadmap(state.activeProjectId);
+    } else if (state.currentView === 'profile') {
+      renderProfileInfo();
+    }
+  }
+
+  function toggleMobileSidebar() {
+    var sb = document.querySelector('.sidebar');
+    if (sb) {
+      sb.classList.toggle('mobile-collapsed');
     }
   }
 
@@ -195,11 +225,20 @@ var APP = (function() {
     }
 
     var html = '';
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+
     data.forEach(function(t) {
       var skillsList = t.skills ? t.skills.split(',').map(function(s) { return s.trim(); }) : [];
       var tagsHtml = skillsList.map(function(sk) {
         return '<span class="tag-skill">' + sk + '</span>';
       }).join('');
+
+      var rawRate = Number(t.tarifa_hito || t.tarifa_hora) || 4600;
+      var hitoMonto = (rawRate < 100) ? rawRate * 100 : rawRate;
+      var escrowLabel = isDe ? '/ Meilenstein Escrow' : '/ Hito en Escrow';
+
+      var emailVal = t.email || (t.nombre.toLowerCase().replace(/\s+/g, '.') + '@swissvz.dev');
+      var telVal = t.telefono || '+58 412 892 1045';
 
       html += '<div class="card-talent">' +
         '<div class="talent-head">' +
@@ -210,12 +249,17 @@ var APP = (function() {
               '<div class="badge badge-verified">' + getIcon('shield-check', 14) + ' ' + (window.I18N ? window.I18N.t('badge_verified') : 'Verificado por Swiss-VZ') + '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="talent-rate">$' + t.tarifa_hora + '<span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/hr</span></div>' +
+          '<div class="talent-rate">CHF ' + hitoMonto.toLocaleString() + '<span style="font-size:0.72rem;color:var(--text-muted);font-weight:500;display:block;text-align:right;">' + escrowLabel + '</span></div>' +
         '</div>' +
-        '<p style="font-size:0.88rem;margin:12px 0;line-height:1.5;">' + (t.bio || 'Desarrollador de software con experiencia comprobada.') + '</p>' +
+        '<p style="font-size:0.88rem;margin:12px 0 8px;line-height:1.5;">' + (t.bio || 'Desarrollador de software con experiencia comprobada.') + '</p>' +
+        '<div class="talent-contact-bar">' +
+          '<a href="mailto:' + emailVal + '" style="color:var(--accent);">' + getIcon('mail', 14) + ' <span>' + emailVal + '</span></a>' +
+          '<span style="color:var(--border);">•</span>' +
+          '<a href="tel:' + telVal.replace(/\s+/g, '') + '" style="color:var(--success);">' + getIcon('phone', 14) + ' <span>' + telVal + '</span></a>' +
+        '</div>' +
         '<div class="talent-skills-wrap">' + tagsHtml + '</div>' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);">' +
-          '<div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-secondary);">' + getIcon('star', 15) + ' 4.9 (45+ ' + (window.I18N && window.I18N.getLang() === 'de' ? 'Bewertungen' : 'reseñas') + ')</div>' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap;gap:12px;">' +
+          '<div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--text-secondary);">' + getIcon('star', 15) + ' 4.9 (45+ ' + (isDe ? 'Bewertungen' : 'reseñas') + ')</div>' +
           '<button class="btn-cta-primary" style="padding:10px 18px;font-size:0.85rem;" onclick="APP.proposeContract(\'' + t.id + '\',\'' + t.nombre + '\')">' + (window.I18N ? window.I18N.t('btn_hire') : 'Contratar en Escrow') + '</button>' +
         '</div>' +
       '</div>';
@@ -406,26 +450,58 @@ var APP = (function() {
     if (!container) return;
 
     var isClient = state.currentRole === 'cliente';
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+
+    var entityLabel = isClient 
+      ? (isDe ? 'Unternehmensidentifikation' : 'Identificación Corporativa')
+      : (isDe ? 'Steuerlicher Wohnsitz & ID' : 'Residencia Fiscal & ID');
+    var entityVal = isClient
+      ? 'UID CHE-402.198.552 · Handelsregisteramt Zürich'
+      : 'ID Fiscal: V-24.891.450 · Caracas, Venezuela';
+
+    var jurisLabel = isDe ? 'Gerichtsstand & Datenschutz' : 'Jurisdicción & Marco Legal';
+    var jurisVal = isClient
+      ? (isDe ? 'Schweizerische Eidgenossenschaft (Gerichte Zürich) · nDSG / DSG' : 'Confederación Suiza (Tribunales de Zúrich) · nLPD / DSG')
+      : (isDe ? 'Internationaler Schweizer B2B-Vertrag mit neutralem Schiedsgericht in der Schweiz · Schweizer DSG-Konformität' : 'Contrato B2B Internacional Suizo-Venezolano con cláusula de arbitraje neutral en Suiza · Cumplimiento nLPD');
+
+    var emailVal = isClient ? 'contact@claralens.ch' : 'a.rodriguez@swissvz.dev';
+    var telVal = isClient ? '+41 44 215 88 00' : '+58 412 892 1045';
+
     container.innerHTML = 
-      '<div style="max-width:700px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;">' +
-        '<div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;">' +
-          '<div style="width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#6E2BD9);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:#fff;font-family:\'Montserrat\';">' + (isClient ? 'CL' : 'AR') + '</div>' +
+      '<div style="max-width:760px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;">' +
+        '<div style="display:flex;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap;">' +
+          '<div style="width:68px;height:68px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#6E2BD9);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#fff;font-family:\'Montserrat\';">' + (isClient ? 'CL' : 'AR') + '</div>' +
           '<div>' +
-            '<h2 style="font-size:1.4rem;font-weight:800;margin-bottom:4px;">' + (isClient ? 'ClaraLens AG' : 'Alejandro Rodríguez') + '</h2>' +
-            '<p style="font-size:0.85rem;color:var(--text-muted);">' + (isClient ? 'Empresa Registrada en Zúrich · UID CHE-402.198.552' : 'Ingeniero de Software Senior · Caracas, VE') + '</p>' +
+            '<h2 style="font-size:1.5rem;font-weight:800;margin-bottom:4px;">' + (isClient ? 'ClaraLens AG' : 'Alejandro Rodríguez') + '</h2>' +
+            '<p style="font-size:0.88rem;color:var(--text-muted);">' + (isClient ? (isDe ? 'MedTech Start-up · Zürich, Schweiz' : 'Startup Médica (MedTech) · Zúrich, Suiza') : (isDe ? 'Senior Full-Stack Ingenieur · Caracas, Venezuela' : 'Ingeniero de Software Full-Stack Senior · Caracas, Venezuela')) + '</p>' +
           '</div>' +
         '</div>' +
+
+        '<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px;margin-bottom:24px;">' +
+          '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:8px;">' + (isDe ? 'Verifizierte Kontaktdaten' : 'Métodos de Contacto Verificados') + '</div>' +
+          '<div style="display:flex;gap:20px;flex-wrap:wrap;font-size:0.9rem;">' +
+            '<a href="mailto:' + emailVal + '" style="display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:600;">' + getIcon('mail', 16) + ' <span>' + emailVal + '</span></a>' +
+            '<a href="tel:' + telVal.replace(/\s+/g, '') + '" style="display:inline-flex;align-items:center;gap:8px;color:var(--success);font-weight:600;">' + getIcon('phone', 16) + ' <span>' + telVal + '</span></a>' +
+          '</div>' +
+        '</div>' +
+
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;">' +
-          '<div style="background:var(--surface-2);padding:16px;border-radius:var(--radius-sm);border:1px solid var(--border);">' +
-            '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Jurisdicción & Privacidad</div>' +
-            '<div style="font-size:0.95rem;font-weight:600;">Sujeto a nLPD Suiza</div>' +
+          '<div style="background:var(--surface-2);padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border);">' +
+            '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:6px;">' + entityLabel + '</div>' +
+            '<div style="font-size:0.92rem;font-weight:600;line-height:1.5;">' + entityVal + '</div>' +
           '</div>' +
-          '<div style="background:var(--surface-2);padding:16px;border-radius:var(--radius-sm);border:1px solid var(--border);">' +
-            '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:4px;">Estado de Verificación</div>' +
-            '<div style="font-size:0.95rem;font-weight:600;color:var(--success);">' + getIcon('shield-check', 16) + ' Verificado Grado A</div>' +
+          '<div style="background:var(--surface-2);padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border);">' +
+            '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:6px;">' + (isDe ? 'Finanzielle Treuhandgarantie' : 'Garantía Financiera Escrow') + '</div>' +
+            '<div style="font-size:0.92rem;font-weight:600;color:var(--success);line-height:1.5;">' + getIcon('shield-check', 16) + ' ' + (isClient ? (isDe ? 'PostFinance AG (Neutrales Escrow)' : 'PostFinance AG (Custodia Neutral)') : (isDe ? '100% Zahlungsgarantie im Schweizer Escrow' : '100% Pago Asegurado en Bóveda Suiza')) + '</div>' +
           '</div>' +
         '</div>' +
-        '<button class="btn-cta-secondary" onclick="APP.openSettingsModal()" style="width:100%;justify-content:center;">' + getIcon('settings', 16) + ' Configurar Conexión con Google Sheets</button>' +
+
+        '<div style="background:var(--surface-2);padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:28px;">' +
+          '<div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;margin-bottom:6px;">' + jurisLabel + '</div>' +
+          '<div style="font-size:0.9rem;line-height:1.6;color:var(--text-secondary);">' + jurisVal + '</div>' +
+        '</div>' +
+
+        '<button class="btn-cta-secondary" onclick="APP.openSettingsModal()" style="width:100%;justify-content:center;">' + getIcon('settings', 16) + ' ' + (isDe ? 'Google Sheets Verbindung konfigurieren' : 'Configurar Conexión con Google Sheets') + '</button>' +
       '</div>';
   }
 
@@ -532,6 +608,7 @@ var APP = (function() {
     triggerRemoteSeed: triggerRemoteSeed,
     proposeContract: proposeContract,
     sendProposalConfirmed: sendProposalConfirmed,
+    toggleMobileSidebar: toggleMobileSidebar,
     showToast: showToast
   };
 })();
