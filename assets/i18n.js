@@ -12,6 +12,7 @@ var I18N = (function() {
       nav_how: "Cómo Funciona",
       nav_escrow: "Módulo Escrow",
       nav_talent: "Talento Verificado",
+      nav_company: "KAIROS",
       nav_compliance: "Soberanía nLPD",
       nav_enter: "Ingresar al Panel →",
 
@@ -70,6 +71,18 @@ var I18N = (function() {
       trust_2_desc: "Infraestructura y almacenamiento alojados en centros de datos con certificación ISO 27001 (Infomaniak en Ginebra), neutros en carbono.",
       trust_3_title: "Arbitraje Legal Neutral",
       trust_3_desc: "Contratos de desarrollo con mediación técnica experta para resolver cualquier eventualidad con total neutralidad jurídica.",
+
+      // Empresa: KAIROS
+      company_tag: "Arquitectura Institucional",
+      company_title: "KAIROS: Puente Tecnológico y Educativo",
+      company_subtitle: "La entidad promotora detrás de Swiss-VZ Connect, uniendo la innovación de Suiza con el potencial del talento venezolano.",
+      company_desc: "KAIROS opera como un puente estratégico bilateral. No somos una agencia tradicional de outsourcing: estructuramos relaciones comerciales de alto valor basadas en soberanía jurídica, mediación institucional neutral y formación continua de desarrolladores senior.",
+      company_pillar_1_title: "Selección & Certificación de Élite",
+      company_pillar_1_desc: "Evaluamos rigurosamente al 3% superior de ingenieros en Venezuela bajo pruebas de arquitectura distribuida y core banking.",
+      company_pillar_2_title: "Blindaje Jurídico & Escrow Suizo",
+      company_pillar_2_desc: "Operaciones amparadas por la Ley Federal de Protección de Datos de Suiza (nLPD) con custodia en PostFinance AG.",
+      company_pillar_3_title: "Cooperación Bilateral Sostenible",
+      company_pillar_3_desc: "Solución ética que alivia el déficit de ingenieros de software en Suiza y genera compensación premium para el ecosistema venezolano.",
 
       // Final CTA & Footer
       final_cta_title: "¿Listo para Prototipar sin Riesgo Financiero?",
@@ -163,6 +176,7 @@ var I18N = (function() {
       nav_how: "Wie es funktioniert",
       nav_escrow: "Escrow-Modul",
       nav_talent: "Geprüfte Talente",
+      nav_company: "KAIROS",
       nav_compliance: "DSG-Konformität",
       nav_enter: "Zum Dashboard →",
 
@@ -221,6 +235,18 @@ var I18N = (function() {
       trust_2_desc: "Infrastruktur und Datenspeicherung in ISO-27001-zertifizierten Rechenzentren (Infomaniak in Genf) mit 100% erneuerbarer Energie.",
       trust_3_title: "Neutrale Schiedsgerichtsbarkeit",
       trust_3_desc: "Softwareverträge mit technischer Mediation zur unparteiischen Lösung allfälliger Unklarheiten nach Schweizer Rechtsverständnis.",
+
+      // Empresa: KAIROS
+      company_tag: "Institutionelle Architektur",
+      company_title: "KAIROS: Technologie- und Bildungsbrücke",
+      company_subtitle: "Die Trägerorganisation hinter Swiss-VZ Connect, die Schweizer Innovationskraft mit herausragendem venezolanischem Engineering verbindet.",
+      company_desc: "KAIROS fungiert als bilaterale strategische Brücke. Wir sind keine herkömmliche Outsourcing-Agentur: Wir etablieren hochkarätige Geschäftsbeziehungen auf Basis von Rechtssicherheit, neutraler Schiedsgerichtsbarkeit und kontinuierlicher Qualifizierung.",
+      company_pillar_1_title: "Elite-Auswahl & Zertifizierung",
+      company_pillar_1_desc: "Wir prüfen die obersten 3 % der Ingenieure in Venezuela nach anspruchsvollen Schweizer Standards für verteilte Systeme und Core Banking.",
+      company_pillar_2_title: "Rechtliche Sicherheit & Schweizer Escrow",
+      company_pillar_2_desc: "Vollständige Konformität mit dem Schweizer Datenschutzgesetz (DSG / nDSG) und Verwahrung über PostFinance AG.",
+      company_pillar_3_title: "Nachhaltige bilaterale Zusammenarbeit",
+      company_pillar_3_desc: "Ethische Brücke zur Bewältigung des Schweizer ICT-Fachkräftemangels bei gleichzeitiger Stärkung des venezolanischen Tech-Ökosystems.",
 
       // Final CTA & Footer
       final_cta_title: "Bereit für Prototyping ohne finanzielles Risiko?",

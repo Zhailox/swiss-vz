@@ -550,6 +550,110 @@ svg {
   margin-bottom: 20px;
 }
 
+/* 6.5. Sección "KAIROS: La Empresa / Promotora" */
+.kairos-showcase {
+  background: linear-gradient(135deg, rgba(37, 37, 48, 0.75) 0%, rgba(25, 25, 36, 0.95) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 44px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.kairos-showcase::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.kairos-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle, rgba(30, 30, 42, 0.75) 0%, rgba(19, 19, 26, 0.95) 100%);
+  border-radius: var(--radius);
+  border: 1px solid rgba(157, 78, 221, 0.25);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(10, 10, 15, 0.6);
+}
+.kairos-logo-img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 14px;
+  display: block;
+  /* Suave difuminado perimetral para fusionar armónicamente el fondo claro del logo con la estética oscura */
+  -webkit-mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, black 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 88% at 50% 50%, black 72%, transparent 100%);
+  transition: transform 0.3s ease;
+}
+.kairos-logo-wrap:hover .kairos-logo-img {
+  transform: scale(1.025);
+}
+.kairos-content {
+  position: relative;
+  z-index: 1;
+}
+.kairos-pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 24px;
+}
+.kairos-pillar-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--surface-2);
+  border: 1px solid rgba(53, 53, 74, 0.7);
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.kairos-pillar-item:hover {
+  border-color: rgba(157, 78, 221, 0.35);
+  transform: translateX(4px);
+}
+.kairos-pillar-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.kairos-badge-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.kairos-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(157, 78, 221, 0.1);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 /* 7. CTA Final & Footer */
 .land-final-cta {
   text-align: center;
@@ -1128,6 +1232,17 @@ svg {
   }
   .flow-node {
     width: 100%;
+  }
+  .kairos-showcase {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 20px;
+  }
+  .kairos-logo-wrap {
+    padding: 16px;
+  }
+  .kairos-logo-img {
+    max-width: 100%;
   }
 
   /* App Shell Mobile Drawer */
