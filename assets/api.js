@@ -8,7 +8,12 @@ var API = (function() {
   var memoryCache = new Map();
 
   function getApiUrl() {
-    return localStorage.getItem("SWISSVZ_API_URL") || DEFAULT_URL;
+    var stored = localStorage.getItem("SWISSVZ_API_URL");
+    if (stored && stored.includes("PLACEHOLDER")) {
+      localStorage.removeItem("SWISSVZ_API_URL");
+      return DEFAULT_URL;
+    }
+    return stored || DEFAULT_URL;
   }
 
   function setApiUrl(newUrl) {

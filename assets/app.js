@@ -443,7 +443,7 @@ var APP = (function() {
       '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--surface-2);border-radius:var(--radius-sm);margin-bottom:24px;">' +
         '<span style="font-size:0.82rem;color:var(--text-secondary);">Estado de Conexión:</span>' +
         (isConfigured 
-          ? '<span class="badge badge-verified">' + getIcon('check', 12) + ' URL Personalizada Guardada</span>' 
+          ? '<span class="badge badge-verified">' + getIcon('check', 12) + ' Conectado a Google Sheets (En Vivo)</span>' 
           : '<span class="badge badge-warning">' + getIcon('clock', 12) + ' Modo Mock Local (Sin Servidor)</span>') +
       '</div>' +
       '<div style="display:flex;gap:12px;justify-content:space-between;">' +
