@@ -405,6 +405,22 @@
             </button>
           </div>
         </div>
+
+        <!-- Selector Rápido de Usuario de Prueba -->
+        <div class="user-switcher-wrap" title="Cambiar usuario de simulación">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <select id="userSelector" onchange="APP.switchUser(this.value)">
+            <optgroup label="Clientes (Suiza)">
+              <option value="USR-001">ClaraLens AG (Zúrich)</option>
+              <option value="USR-002">AlpineFintech (Zug)</option>
+            </optgroup>
+            <optgroup label="Desarrolladores (Venezuela)">
+              <option value="USR-003">Alejandro Rodríguez (Senior Full-Stack)</option>
+              <option value="USR-004">María Fernández (Backend Python)</option>
+              <option value="USR-005">Carlos Mendoza (DevOps & Cloud)</option>
+            </optgroup>
+          </select>
+        </div>
       </div>
 
       <div class="topbar-right">
@@ -444,6 +460,12 @@
           <div class="nav-link active" id="nav-roadmap" onclick="APP.showView('roadmap')">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
             <span data-i18n="sidebar_nav_project">Proyecto: PSD2 Banking</span>
+          </div>
+
+          <div class="nav-link" id="nav-proposals" onclick="APP.showView('proposals')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span data-i18n="sidebar_nav_proposals">Propuestas & Contratos</span>
+            <span class="badge" id="proposalsBadge" style="margin-left:auto;background:var(--accent);color:#fff;font-size:0.7rem;padding:2px 7px;border-radius:99px;display:none;">0</span>
           </div>
 
           <div class="nav-link" id="nav-transactions" onclick="APP.showView('transactions')">
@@ -513,6 +535,16 @@
           <div id="roadmapContent"></div>
         </section>
 
+        <!-- VISTA 2.5: Propuestas & Contratos -->
+        <section class="view-pane" id="view-proposals">
+          <div class="view-header">
+            <h1 class="view-title" data-i18n="view_proposals_title">Bandeja de Propuestas & Contratos</h1>
+            <p class="view-subtitle" data-i18n="view_proposals_sub">Revisa, acepta o gestiona ofertas de proyectos con custodia garantizada en Escrow.</p>
+          </div>
+
+          <div id="proposalsContent"></div>
+        </section>
+
         <!-- VISTA 3: Auditoría y Transacciones -->
         <section class="view-pane" id="view-transactions">
           <div class="view-header">
@@ -548,6 +580,8 @@
         window.I18N.applyTranslations();
       }
       APP.renderTalentsList();
+      var storedUser = localStorage.getItem('SWISSVZ_USER_ID') || 'USR-001';
+      APP.switchUser(storedUser, false);
     });
   </script>
 </body>

@@ -238,7 +238,7 @@ svg {
 #landing {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
   background: var(--bg);
 }
 
@@ -274,10 +274,11 @@ svg {
   align-items: center;
   justify-content: space-between;
   padding: 18px 48px;
-  background: rgba(19, 19, 26, 0.85);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(53, 53, 74, 0.6);
-  z-index: 200;
+  background: rgba(19, 19, 26, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(53, 53, 74, 0.7);
+  z-index: 999;
 }
 .brand-wrap {
   display: flex;
@@ -1220,4 +1221,128 @@ svg {
     min-width: unset;
     width: 100%;
   }
+}
+
+/* User Switcher */
+.user-switcher-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 4px 12px 4px 6px;
+  font-size: 0.8rem;
+}
+.user-switcher-wrap select {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+.user-switcher-wrap select option {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* Proposal Cards and Flow */
+.proposals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+.card-proposal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.card-proposal:hover {
+  border-color: rgba(157, 78, 221, 0.4);
+  box-shadow: var(--shadow);
+}
+.proposal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.proposal-badge-pending {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.proposal-badge-active {
+  background: var(--success-soft);
+  color: var(--success);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.proposal-badge-rejected {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Security & API masking */
+.security-box {
+  background: rgba(157, 78, 221, 0.08);
+  border: 1px solid rgba(157, 78, 221, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.api-mask-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.api-mask-wrap input {
+  padding-right: 44px !important;
+}
+.api-mask-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.api-mask-toggle:hover {
+  color: var(--text-primary);
 }

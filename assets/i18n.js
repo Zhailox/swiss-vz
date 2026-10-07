@@ -86,13 +86,15 @@ var I18N = (function() {
       topbar_role_client: "Cliente (Zúrich)",
       topbar_role_dev: "Desarrollador (Caracas)",
       topbar_host: "Host Infomaniak · Ginebra",
+      topbar_switch_user: "Simular Usuario",
       sidebar_btn_search: "Buscar Talento",
       sidebar_sec_contracts: "Contratos & Escrow",
       sidebar_nav_project: "Proyecto: PSD2 Banking",
+      sidebar_nav_proposals: "Propuestas & Contratos",
       sidebar_nav_audit: "Auditoría de Pagos",
       sidebar_sec_account: "Cuenta Corporativa",
       sidebar_nav_profile: "Ficha del Usuario",
-      sidebar_nav_sheets: "Configurar Google Sheets",
+      sidebar_nav_sheets: "Seguridad & Conexión Sheets",
 
       // App Views
       view_search_title: "Directorio de Talento Verificado",
@@ -104,14 +106,50 @@ var I18N = (function() {
       view_audit_sub: "Registro inmutable de depósitos iniciales y dispersiones autorizadas a través de PostFinance AG.",
       view_profile_title: "Perfil Corporativo & Cumplimiento",
       view_profile_sub: "Metadatos de la entidad, jurisdicción de datos aplicable y configuración de enlaces.",
+      view_proposals_title: "Bandeja de Propuestas & Contratos",
+      view_proposals_sub: "Revisa, acepta o gestiona ofertas de proyectos con custodia garantizada en Escrow.",
 
-      // Botones y Acciones en App
+      // Modales y Acciones Interactivas
       btn_hire: "Contratar en Escrow",
       badge_verified: "Verificado por Swiss-VZ",
       btn_save_settings: "Guardar Cambios",
       btn_close: "Cerrar",
       btn_cancel: "Cancelar",
-      btn_authorize: "Autorizar Liberación →"
+      btn_authorize: "Autorizar Liberación →",
+      btn_accept_contract: "Aceptar Contrato & Activar Escrow →",
+      btn_reject: "Rechazar Oferta",
+
+      modal_proposal_title: "Proponer Contrato en Escrow",
+      modal_proposal_desc: "Estás por iniciar una oferta formal de desarrollo respaldada por Escrow con",
+      modal_proposal_project: "Proyecto vinculado:",
+      modal_proposal_escrow_note: "El depósito quedará inmovilizado en custodia suiza (PostFinance AG) tras la aceptación.",
+      modal_proposal_confirm: "Enviar Oferta de Contrato →",
+
+      toast_proposal_sent: "Propuesta Enviada",
+      toast_proposal_sent_msg: "Se ha notificado a {0}. Los fondos quedarán reservados y se activará el proyecto tras su aceptación.",
+
+      modal_accept_title: "Aceptar Contrato de Escrow",
+      modal_accept_desc: "¿Confirmas la aceptación de la propuesta emitida por {0}? Al aceptar, el contrato entrará en vigor inmediatamente y los fondos de {1} quedarán garantizados en Escrow.",
+
+      toast_contract_active: "¡Contrato Activado!",
+      toast_contract_active_msg: "Fondos de {0} asegurados en Escrow suizo. El proyecto está ahora activo.",
+
+      milestone_release_title: "Liberación de Fondos en Escrow",
+      milestone_release_desc: "¿Deseas certificar la entrega de este entregable y autorizar la liberación inmediata de {0} desde la bóveda de custodia?",
+      milestone_selected_label: "Hito seleccionado:",
+      milestone_transfer_note: "Transferencia bancaria directa vía PostFinance AG",
+
+      toast_milestone_done: "¡Fondos Transferidos!",
+      toast_milestone_done_msg: "Se han liberado {0}. Referencia bancaria: {1}",
+
+      settings_api_title: "Seguridad & Conexión Backend",
+      settings_api_desc: "La comunicación con Google Sheets está canalizada a través de un gateway seguro con proxies en Ginebra. La URL del Web App se encuentra enmascarada para proteger la privacidad de tu infraestructura.",
+      settings_api_label: "ENDPOINT DE GOOGLE APPS SCRIPT (CIFRADO)",
+      settings_api_show: "Mostrar / Modificar URL",
+      settings_api_hide: "Ocultar URL",
+      settings_status_live: "Conexión Activa con Google Sheets (En Vivo)",
+      settings_status_mock: "Modo Mock Local (Sin Servidor)",
+      settings_force_seed: "Forzar Seeder"
     },
 
     de: {
@@ -193,13 +231,15 @@ var I18N = (function() {
       topbar_role_client: "Auftraggeber (Zürich)",
       topbar_role_dev: "Entwickler (Caracas)",
       topbar_host: "Host Infomaniak · Genf",
+      topbar_switch_user: "Benutzer wechseln",
       sidebar_btn_search: "Talente suchen",
       sidebar_sec_contracts: "Verträge & Escrow",
       sidebar_nav_project: "Projekt: PSD2 Banking",
+      sidebar_nav_proposals: "Angebote & Verträge",
       sidebar_nav_audit: "Zahlungsprüfung",
       sidebar_sec_account: "Unternehmenskonto",
       sidebar_nav_profile: "Benutzerprofil",
-      sidebar_nav_sheets: "Google Sheets konfigurieren",
+      sidebar_nav_sheets: "Sicherheit & Sheets-Verbindung",
 
       // App Views
       view_search_title: "Verzeichnis geprüfter Talente",
@@ -211,14 +251,50 @@ var I18N = (function() {
       view_audit_sub: "Unveränderliches Protokoll der Ersteinzahlungen und autorisierten Auszahlungen über PostFinance AG.",
       view_profile_title: "Unternehmensprofil & Konformität",
       view_profile_sub: "Unternehmensdaten, anwendbarer Gerichtsstand und Schnittstellen-Konfiguration.",
+      view_proposals_title: "Posteingang: Angebote & Verträge",
+      view_proposals_sub: "Prüfen, akzeptieren oder verwalten Sie Projektangebote mit garantierter Escrow-Treuhand.",
 
-      // Botones y Acciones en App
+      // Modales y Acciones Interactivas
       btn_hire: "Über Escrow beauftragen",
       badge_verified: "Swiss-VZ Verifiziert",
       btn_save_settings: "Änderungen speichern",
       btn_close: "Schliessen",
       btn_cancel: "Abbrechen",
-      btn_authorize: "Auszahlung autorisieren →"
+      btn_authorize: "Auszahlung autorisieren →",
+      btn_accept_contract: "Vertrag annehmen & Escrow aktivieren →",
+      btn_reject: "Angebot ablehnen",
+
+      modal_proposal_title: "Escrow-Vertragsangebot unterbreiten",
+      modal_proposal_desc: "Sie eröffnen ein formelles, durch Schweizer Escrow gesichertes Projektangebot mit",
+      modal_proposal_project: "Zugeordnetes Projekt:",
+      modal_proposal_escrow_note: "Das Guthaben wird nach Annahme auf dem Schweizer Treuhandkonto (PostFinance AG) gesperrt.",
+      modal_proposal_confirm: "Vertragsangebot absenden →",
+
+      toast_proposal_sent: "Angebot gesendet",
+      toast_proposal_sent_msg: "{0} wurde benachrichtigt. Die Mittel werden gesichert und das Projekt nach Annahme gestartet.",
+
+      modal_accept_title: "Escrow-Vertrag annehmen",
+      modal_accept_desc: "Bestätigen Sie die Annahme des Angebots von {0}? Der Vertrag tritt sofort in Kraft und das Guthaben von {1} wird im Schweizer Escrow gesichert.",
+
+      toast_contract_active: "Vertrag aktiviert!",
+      toast_contract_active_msg: "Guthaben von {0} im Schweizer Escrow gesichert. Das Projekt ist nun aktiv.",
+
+      milestone_release_title: "Escrow-Guthaben freigeben",
+      milestone_release_desc: "Möchten Sie die Lieferung zertifizieren und die sofortige Auszahlung von {0} aus dem Treuhandkonto autorisieren?",
+      milestone_selected_label: "Ausgewählter Meilenstein:",
+      milestone_transfer_note: "Direkte Banküberweisung über PostFinance AG",
+
+      toast_milestone_done: "Guthaben freigegeben!",
+      toast_milestone_done_msg: "{0} wurden ausgezahlt. Bankreferenz: {1}",
+
+      settings_api_title: "Sicherheit & Backend-Verbindung",
+      settings_api_desc: "Die Kommunikation mit Google Sheets erfolgt über ein sicheres Gateway mit Proxys in Genf. Die Web-App-URL wird maskiert, um die Vertraulichkeit Ihrer Infrastruktur zu schützen.",
+      settings_api_label: "GOOGLE APPS SCRIPT ENDPUNKT (VERSCHLÜSSELT)",
+      settings_api_show: "URL anzeigen / bearbeiten",
+      settings_api_hide: "URL verbergen",
+      settings_status_live: "Aktive Verbindung mit Google Sheets (Live)",
+      settings_status_mock: "Lokaler Mock-Modus (Kein Server)",
+      settings_force_seed: "Seeder ausführen"
     }
   };
 
@@ -236,9 +312,15 @@ var I18N = (function() {
     return false;
   }
 
-  function t(key) {
+  function t(key, params) {
     var dict = translations[currentLang] || translations.es;
-    return dict[key] !== undefined ? dict[key] : (translations.es[key] || key);
+    var str = dict[key] !== undefined ? dict[key] : (translations.es[key] || key);
+    if (params && Array.isArray(params)) {
+      params.forEach(function(val, idx) {
+        str = str.replace(new RegExp('\\{' + idx + '\\}', 'g'), val);
+      });
+    }
+    return str;
   }
 
   function applyTranslations() {
