@@ -406,20 +406,65 @@
           </div>
         </div>
 
-        <!-- Selector Rápido de Usuario de Prueba -->
-        <div class="user-switcher-wrap" title="Cambiar usuario de simulación">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <select id="userSelector" onchange="APP.switchUser(this.value)">
-            <optgroup label="Clientes (Suiza)">
-              <option value="USR-001">ClaraLens AG (Zúrich)</option>
-              <option value="USR-002">AlpineFintech (Zug)</option>
-            </optgroup>
-            <optgroup label="Desarrolladores (Venezuela)">
-              <option value="USR-003">Alejandro Rodríguez (Senior Full-Stack)</option>
-              <option value="USR-004">María Fernández (Backend Python)</option>
-              <option value="USR-005">Carlos Mendoza (DevOps & Cloud)</option>
-            </optgroup>
-          </select>
+        <!-- Selector Customizado de Usuario de Prueba (Fintech Dropdown) -->
+        <div class="user-picker" id="userPickerDropdown">
+          <button class="user-picker-btn" onclick="APP.toggleUserDropdown(event)" id="userPickerBtn" type="button" aria-haspopup="true">
+            <div class="user-picker-avatar" id="pickerAvatar">CL</div>
+            <div class="user-picker-info">
+              <span class="user-picker-name" id="pickerName">ClaraLens AG</span>
+              <span class="user-picker-role" id="pickerRole">Cliente · Zúrich</span>
+            </div>
+            <svg class="picker-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+
+          <div class="user-picker-menu" id="userPickerMenu">
+            <div class="picker-menu-header">
+              <span data-i18n="picker_header">Simular Identidad B2B</span>
+              <span class="picker-tag">Sandbox</span>
+            </div>
+            <div class="picker-group-title" data-i18n="picker_grp_clients">Empresas Suizas (Clientes)</div>
+            <div class="picker-item active" data-user="USR-001" onclick="APP.selectUserFromMenu('USR-001')">
+              <div class="picker-item-avatar" style="background:#9D4EDD;">CL</div>
+              <div class="picker-item-details">
+                <div class="picker-item-name">ClaraLens AG <span class="badge-flag">CH</span></div>
+                <div class="picker-item-sub">MedTech Start-up · Zúrich</div>
+              </div>
+              <div class="picker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </div>
+            <div class="picker-item" data-user="USR-002" onclick="APP.selectUserFromMenu('USR-002')">
+              <div class="picker-item-avatar" style="background:#2ECC71;">AF</div>
+              <div class="picker-item-details">
+                <div class="picker-item-name">AlpineFintech AG <span class="badge-flag">CH</span></div>
+                <div class="picker-item-sub">Fintech & Core Banking · Zug</div>
+              </div>
+              <div class="picker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </div>
+            <div class="picker-group-title" data-i18n="picker_grp_devs">Desarrolladores Élite (Venezuela)</div>
+            <div class="picker-item" data-user="USR-003" onclick="APP.selectUserFromMenu('USR-003')">
+              <div class="picker-item-avatar" style="background:#9D4EDD;">AR</div>
+              <div class="picker-item-details">
+                <div class="picker-item-name">Alejandro Rodríguez <span class="badge-flag">VE</span></div>
+                <div class="picker-item-sub">Senior Full-Stack (Vue/Python) · Caracas</div>
+              </div>
+              <div class="picker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </div>
+            <div class="picker-item" data-user="USR-004" onclick="APP.selectUserFromMenu('USR-004')">
+              <div class="picker-item-avatar" style="background:#2ECC71;">MF</div>
+              <div class="picker-item-details">
+                <div class="picker-item-name">María Fernández <span class="badge-flag">VE</span></div>
+                <div class="picker-item-sub">Backend Python (PSD2 Core) · Caracas</div>
+              </div>
+              <div class="picker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </div>
+            <div class="picker-item" data-user="USR-005" onclick="APP.selectUserFromMenu('USR-005')">
+              <div class="picker-item-avatar" style="background:#F39C12;">CM</div>
+              <div class="picker-item-details">
+                <div class="picker-item-name">Carlos Mendoza <span class="badge-flag">VE</span></div>
+                <div class="picker-item-sub">DevOps & Cloud Architect · Valencia</div>
+              </div>
+              <div class="picker-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -446,8 +491,23 @@
     <!-- Cuerpo Principal de la Aplicación -->
     <div class="main-layout">
 
-      <!-- Sidebar -->
-      <aside class="sidebar">
+      <!-- Backdrop de oscurecimiento para Drawer Mobile -->
+      <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="APP.toggleMobileSidebar()"></div>
+
+      <!-- Sidebar Drawer -->
+      <aside class="sidebar" id="appSidebar">
+        <!-- Cabecera exclusiva para vista móvil -->
+        <div class="sidebar-mobile-header">
+          <div class="brand-wrap">
+            <div class="brand-icon" style="width:30px;height:30px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon></svg>
+            </div>
+            <div class="brand-name" style="font-size:1rem;">Swiss<span>-VZ</span></div>
+          </div>
+          <button class="btn-icon" onclick="APP.toggleMobileSidebar()" title="Cerrar Menú">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
         <div class="sidebar-scroll">
           <div id="navItemSearch">
             <button class="btn-cta-primary" style="width:100%;margin-bottom:24px;justify-content:center;padding:12px 16px;font-size:0.88rem;" onclick="APP.showView('search')">

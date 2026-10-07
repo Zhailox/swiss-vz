@@ -1,7 +1,7 @@
 /**
  * Swiss-VZ Connect - Controlador de la SPA (app.js)
- * Router por vistas, store de estado reactivo, User Switcher,
- * aceptación de propuestas en Escrow, enmascaramiento seguro y soporte i18n completo.
+ * Router por vistas, store de estado reactivo, User Switcher (Fintech Popover),
+ * ciclo completo de propuesta/entrega/liberación en Escrow, y soporte móvil refinado.
  */
 
 var APP = (function() {
@@ -29,8 +29,8 @@ var APP = (function() {
       ciudad: 'Zug',
       avatar: 'AF',
       color: '#2ECC71',
-      sub: 'Fintech & DeFi Solutions · Zug',
-      subDE: 'Fintech & DeFi Solutions · Zug',
+      sub: 'Fintech & Core Banking · Zug',
+      subDE: 'Fintech & Core Banking · Zug',
       email: 'tech@alpinefintech.ch',
       tel: '+41 41 710 40 20',
       idFiscal: 'CHE-310.845.119 · Handelsregisteramt Zug'
@@ -43,8 +43,8 @@ var APP = (function() {
       ciudad: 'Caracas',
       avatar: 'AR',
       color: '#9D4EDD',
-      sub: 'Senior Full-Stack Ingeniero · Caracas',
-      subDE: 'Senior Full-Stack Ingenieur · Caracas',
+      sub: 'Senior Full-Stack (Vue/Python) · Caracas',
+      subDE: 'Senior Full-Stack (Vue/Python) · Caracas',
       email: 'a.rodriguez@swissvz.dev',
       tel: '+58 412 892 1045',
       idFiscal: 'ID Fiscal: V-24.891.450 · Caracas, VE',
@@ -58,8 +58,8 @@ var APP = (function() {
       ciudad: 'Caracas',
       avatar: 'MF',
       color: '#2ECC71',
-      sub: 'Backend Python & Core Bancario · Caracas',
-      subDE: 'Backend Python & Core Banking · Caracas',
+      sub: 'Backend Python (PSD2 Core) · Caracas',
+      subDE: 'Backend Python (PSD2 Core) · Caracas',
       email: 'm.fernandez@swissvz.dev',
       tel: '+58 414 309 1823',
       idFiscal: 'ID Fiscal: V-26.115.390 · Caracas, VE',
@@ -88,9 +88,7 @@ var APP = (function() {
     if (stored) {
       try {
         return JSON.parse(stored);
-      } catch (e) {
-        // Fallback
-      }
+      } catch (e) {}
     }
     return [
       {
@@ -156,13 +154,11 @@ var APP = (function() {
       case 'bell':
         return '<svg ' + s + '><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>';
       case 'settings':
-        return '<svg ' + s + '><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
+        return '<svg ' + s + '><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
       case 'eye':
         return '<svg ' + s + '><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
       case 'eye-off':
         return '<svg ' + s + '><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-      case 'file-text':
-        return '<svg ' + s + '><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>';
       case 'star':
         return '<svg ' + s + ' fill="#F39C12" stroke="#F39C12"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
       case 'clock':
@@ -235,6 +231,24 @@ var APP = (function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // Control del Popover del User Picker
+  function toggleUserDropdown(event) {
+    if (event) event.stopPropagation();
+    var dropdown = document.getElementById('userPickerDropdown');
+    if (!dropdown) return;
+    dropdown.classList.toggle('open');
+  }
+
+  function closeUserDropdown() {
+    var dropdown = document.getElementById('userPickerDropdown');
+    if (dropdown) dropdown.classList.remove('open');
+  }
+
+  function selectUserFromMenu(userId) {
+    closeUserDropdown();
+    switchUser(userId, true);
+  }
+
   // Conmutador de Usuario (User Switcher)
   function switchUser(userId, showNotification) {
     if (showNotification === undefined) showNotification = true;
@@ -244,13 +258,30 @@ var APP = (function() {
     localStorage.setItem('SWISSVZ_USER_ID', user.id);
     localStorage.setItem('SWISSVZ_ROLE', user.rol);
 
-    // Sincronizar select dropdown si existe
-    var userSelect = document.getElementById('userSelector');
-    if (userSelect && userSelect.value !== user.id) {
-      userSelect.value = user.id;
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+
+    // Actualizar botón del Picker Custom
+    var pickerAvatar = document.getElementById('pickerAvatar');
+    var pickerName = document.getElementById('pickerName');
+    var pickerRole = document.getElementById('pickerRole');
+
+    if (pickerAvatar) {
+      pickerAvatar.textContent = user.avatar;
+      pickerAvatar.style.background = user.color || 'var(--accent)';
+    }
+    if (pickerName) pickerName.textContent = user.nombre;
+    if (pickerRole) {
+      pickerRole.textContent = user.rol === 'cliente' 
+        ? (isDe ? 'Auftraggeber · ' + user.ciudad : 'Cliente · ' + user.ciudad)
+        : (isDe ? 'Entwickler · ' + user.ciudad : 'Desarrollador · ' + user.ciudad);
     }
 
-    // Actualizar botones de rol
+    // Actualizar items activos dentro del menú
+    document.querySelectorAll('.picker-item').forEach(function(item) {
+      item.classList.toggle('active', item.getAttribute('data-user') === user.id);
+    });
+
+    // Actualizar botones de rol en el Topbar (si existen visibles)
     var clientBtn = document.getElementById('roleClient');
     var devBtn = document.getElementById('roleDev');
     if (clientBtn && devBtn) {
@@ -263,7 +294,6 @@ var APP = (function() {
     var sidebarName = document.getElementById('sidebarName');
     var sidebarRole = document.getElementById('sidebarRole');
     var searchTalentNavItem = document.getElementById('navItemSearch');
-    var isDe = window.I18N && window.I18N.getLang() === 'de';
 
     if (sidebarAvatar) {
       sidebarAvatar.textContent = user.avatar;
@@ -314,12 +344,10 @@ var APP = (function() {
 
     var count = 0;
     if (state.currentRole === 'dev') {
-      // Contar propuestas pendientes para este dev
       count = state.proposals.filter(function(p) {
         return (p.devId === state.currentUserId || p.devId === 'USR-003') && p.estado === 'pendiente';
       }).length;
     } else {
-      // Contar propuestas activas o pendientes del cliente
       count = state.proposals.filter(function(p) {
         return p.clienteId === state.currentUserId && p.estado === 'pendiente';
       }).length;
@@ -333,16 +361,26 @@ var APP = (function() {
     }
   }
 
-  function toggleMobileSidebar() {
-    var sb = document.querySelector('.sidebar');
-    if (sb) {
-      sb.classList.toggle('mobile-collapsed');
+  // Control del Drawer Sidebar en Mobile
+  function toggleMobileSidebar(force) {
+    var sb = document.getElementById('appSidebar') || document.querySelector('.sidebar');
+    var bd = document.getElementById('sidebarBackdrop');
+    if (!sb) return;
+
+    var shouldOpen = (force !== undefined) ? force : !sb.classList.contains('open');
+    sb.classList.toggle('open', shouldOpen);
+    if (bd) {
+      bd.classList.toggle('active', shouldOpen);
     }
   }
 
   // Enrutador de Vistas Internas
   function showView(viewId) {
     state.currentView = viewId;
+
+    // En pantallas táctiles, cerrar el drawer al navegar
+    toggleMobileSidebar(false);
+
     document.querySelectorAll('.view-pane').forEach(function(pane) {
       pane.classList.remove('active');
     });
@@ -443,7 +481,8 @@ var APP = (function() {
     var container = document.getElementById('roadmapContent');
     if (!container) return;
 
-    container.innerHTML = '<div style="text-align:center;padding:64px;color:var(--text-muted);">' + getIcon('clock', 28) + '<p style="margin-top:12px;">Cargando contrato inteligente y fondos en custodia...</p></div>';
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+    container.innerHTML = '<div style="text-align:center;padding:64px;color:var(--text-muted);">' + getIcon('clock', 28) + '<p style="margin-top:12px;">' + (isDe ? 'Vertrag und Treuhandguthaben werden geladen...' : 'Cargando contrato inteligente y fondos en custodia...') + '</p></div>';
 
     var res = await API.fetchProyectoDetalle(projectId);
     var bundle = (res && res.data) ? res.data : null;
@@ -461,33 +500,54 @@ var APP = (function() {
     var totalHitos = hitos.length || 1;
     var porcentajeAvance = Math.round((completados / totalHitos) * 100);
 
-    var isDe = window.I18N && window.I18N.getLang() === 'de';
+    var isDev = state.currentRole === 'dev';
 
     var hitosHtml = hitos.map(function(h) {
       var isDone = h.estado === 'completado';
       var isInReview = h.estado === 'en_revision';
+
       var statusBadge = isDone 
         ? '<span class="badge badge-verified">' + getIcon('check', 13) + ' ' + (isDe ? 'Freigegeben' : 'Fondos Liberados') + '</span>' 
         : (isInReview 
             ? '<span class="badge badge-warning">' + getIcon('clock', 13) + ' ' + (isDe ? 'In Prüfung' : 'En Revisión de Entrega') + '</span>' 
             : '<span class="badge" style="background:var(--surface-3);color:var(--text-muted);">' + getIcon('lock', 13) + ' ' + (isDe ? 'Im Escrow gesperrt' : 'Bloqueado en Escrow') + '</span>');
 
-      var checkAction = (state.currentRole === 'cliente' && !isDone)
-        ? 'onclick="APP.confirmMilestoneRelease(\'' + h.id + '\',\'' + h.titulo.replace(/'/g, "\\'") + '\',' + h.monto + ')" title="' + (isDe ? 'Klicken um Zahlung freizugeben' : 'Hacer clic para validar entrega y liberar pago') + '"'
-        : 'style="cursor:default;"';
+      var checkAction = (!isDev && isInReview)
+        ? 'onclick="APP.confirmMilestoneRelease(\'' + h.id + '\',\'' + h.titulo.replace(/'/g, "\\'") + '\',' + h.monto + ')" title="' + (isDe ? 'Klicken um Zahlung freizugeben' : 'Hacer clic para validar entrega y liberar pago') + '" style="cursor:pointer;border-color:var(--warning);animation:pulse 1.8s infinite;"'
+        : (!isDev && !isDone
+            ? 'onclick="APP.confirmMilestoneRelease(\'' + h.id + '\',\'' + h.titulo.replace(/'/g, "\\'") + '\',' + h.monto + ')" title="' + (isDe ? 'Lieferung freigeben' : 'Liberar entregable') + '"'
+            : 'style="cursor:default;"');
+
+      var actionBlock = '';
+      if (isDev && !isDone && !isInReview) {
+        actionBlock = 
+          '<div style="margin-top:12px;">' +
+            '<button class="btn-cta-secondary" style="font-size:0.8rem;padding:6px 14px;" onclick="APP.submitMilestoneForReview(\'' + h.id + '\')">' + 
+              (window.I18N ? window.I18N.t('btn_deliver_milestone') : 'Entregar Código / Solicitar Revisión →') + 
+            '</button>' +
+          '</div>';
+      } else if (!isDev && isInReview) {
+        actionBlock = 
+          '<div style="margin-top:12px;">' +
+            '<button class="btn-cta-primary" style="font-size:0.82rem;padding:7px 16px;" onclick="APP.confirmMilestoneRelease(\'' + h.id + '\',\'' + h.titulo.replace(/'/g, "\\'") + '\',' + h.monto + ')">' + 
+              (window.I18N ? window.I18N.t('btn_authorize') : 'Autorizar Liberación de Fondos →') + 
+            '</button>' +
+          '</div>';
+      }
 
       return '<div class="milestone-item ' + (isDone ? 'completed' : '') + '">' +
         '<div class="milestone-check-btn" ' + checkAction + '>' + (isDone ? getIcon('check', 16) : '') + '</div>' +
         '<div style="flex:1;">' +
-          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px;">' +
             '<h4 style="font-size:1.05rem;font-weight:700;' + (isDone ? 'text-decoration:line-through;color:var(--text-muted);' : '') + '">' + h.orden + '. ' + h.titulo + '</h4>' +
             '<div style="font-family:\'Montserrat\';font-size:1.15rem;font-weight:800;color:' + (isDone ? 'var(--success)' : 'var(--text-primary)') + ';">CHF ' + Number(h.monto).toLocaleString() + '</div>' +
           '</div>' +
           '<p style="font-size:0.85rem;margin-bottom:12px;">' + h.descripcion + '</p>' +
-          '<div style="display:flex;align-items:center;gap:12px;">' +
+          '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
             statusBadge +
             '<span style="font-size:0.75rem;color:var(--text-muted);">' + (h.fecha_entrega ? (isDe ? 'Lieferung: ' : 'Entrega: ') + h.fecha_entrega : '') + '</span>' +
           '</div>' +
+          actionBlock +
         '</div>' +
       '</div>';
     }).join('');
@@ -495,14 +555,14 @@ var APP = (function() {
     container.innerHTML = 
       '<div class="escrow-hero-card">' +
         '<div>' +
-          '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">' +
+          '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">' +
             '<div class="badge badge-verified">' + getIcon('shield-check', 15) + ' ' + (isDe ? 'Neutrales Schweizer Treuhandkonto' : 'Custodia Neutral Suiza') + '</div>' +
             '<span style="font-size:0.8rem;color:var(--text-muted);">' + (isDe ? 'Vertrag: ' : 'Contrato: ') + prj.id + '</span>' +
           '</div>' +
           '<h2 style="font-size:1.6rem;font-weight:900;margin-bottom:8px;">' + prj.titulo + '</h2>' +
           '<p style="font-size:0.9rem;max-width:640px;">' + prj.descripcion + '</p>' +
         '</div>' +
-        '<div style="text-align:right;">' +
+        '<div>' +
           '<div style="font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;font-weight:700;letter-spacing:0.05em;margin-bottom:4px;">' + (isDe ? 'Im Escrow gesichertes Guthaben' : 'Saldo Asegurado en Bóveda') + '</div>' +
           '<div class="escrow-amount-display">CHF ' + Number(escrow.monto_retenido).toLocaleString() + '</div>' +
           '<div style="font-size:0.75rem;color:var(--success);font-weight:600;">PostFinance AG Treuhand</div>' +
@@ -532,12 +592,28 @@ var APP = (function() {
         '</div>' +
       '</div>' +
 
-      (state.currentRole === 'dev' 
-        ? '<div style="background:var(--accent-soft);border:1px solid rgba(157,78,221,0.3);border-radius:var(--radius-sm);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;color:var(--accent);font-size:0.85rem;">' + getIcon('lock', 18) + '<span><strong>' + (isDe ? 'Entwickler-Ansicht:' : 'Modo Consulta (Desarrollador):') + '</strong> ' + (isDe ? 'Auszahlungen erfolgen automatisch bei Abnahme durch den Schweizer Kunden.' : 'Los pagos se liberan automáticamente en cuanto el cliente suizo valida la entrega de código.') + '</span></div>' 
-        : '<div style="background:var(--success-soft);border:1px solid rgba(46,204,113,0.3);border-radius:var(--radius-sm);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;color:var(--success);font-size:0.85rem;">' + getIcon('shield-check', 18) + '<span><strong>' + (isDe ? 'Auftraggeber-Steuerung:' : 'Modo Administrador (Cliente):') + '</strong> ' + (isDe ? 'Klicken Sie auf den Kreis eines Meilensteins, um die Lieferung zu zertifizieren und Gelder freizugeben.' : 'Haz clic en el círculo de cualquier hito en revisión para verificarlo y transferir los fondos instantáneamente.') + '</span></div>') +
+      (isDev 
+        ? '<div style="background:var(--accent-soft);border:1px solid rgba(157,78,221,0.3);border-radius:var(--radius-sm);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;color:var(--accent);font-size:0.85rem;">' + getIcon('lock', 18) + '<span><strong>' + (isDe ? 'Entwickler-Modus:' : 'Modo Desarrollador:') + '</strong> ' + (isDe ? 'Klicken Sie auf "Code einreichen", um den Meilenstein zur Kundenabnahme vorzulegen.' : 'Haz clic en "Entregar Código" para poner un entregable en revisión y solicitar el pago.') + '</span></div>' 
+        : '<div style="background:var(--success-soft);border:1px solid rgba(46,204,113,0.3);border-radius:var(--radius-sm);padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;color:var(--success);font-size:0.85rem;">' + getIcon('shield-check', 18) + '<span><strong>' + (isDe ? 'Auftraggeber-Modus:' : 'Modo Cliente Suizo:') + '</strong> ' + (isDe ? 'Überprüfen Sie den Meilenstein und autorisieren Sie die Auszahlung per Klick.' : 'Valida el código entregado y haz clic en autorizar para transferir los fondos custodiados.') + '</span></div>') +
 
       '<h3 style="font-size:1.25rem;font-weight:800;margin-bottom:16px;">' + (isDe ? 'Vertrags-Meilensteine' : 'Hitos del Contrato') + '</h3>' +
       '<div class="milestones-list">' + hitosHtml + '</div>';
+  }
+
+  // Enviar entregable a revisión (Desarrollador)
+  function submitMilestoneForReview(hitoId) {
+    if (state.currentProjectData && state.currentProjectData.hitos) {
+      var h = state.currentProjectData.hitos.find(function(item) { return item.id === hitoId; });
+      if (h) {
+        h.estado = 'en_revision';
+      }
+    }
+    var isDe = window.I18N && window.I18N.getLang() === 'de';
+    showToast('success', 
+      window.I18N ? window.I18N.t('toast_milestone_submitted') : 'Entregable en Revisión',
+      window.I18N ? window.I18N.t('toast_milestone_submitted_msg') : 'Se ha notificado al cliente suizo para validación y liberación de fondos.'
+    );
+    renderProjectRoadmap(state.activeProjectId);
   }
 
   // Renderizador: Bandeja de Propuestas & Contratos
@@ -584,13 +660,13 @@ var APP = (function() {
       var actionsHtml = '';
       if (isDev && isPending) {
         actionsHtml = 
-          '<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">' +
+          '<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap;">' +
             '<button class="btn-cta-secondary" style="font-size:0.85rem;" onclick="APP.rejectProposal(\'' + prop.id + '\')">' + (window.I18N ? window.I18N.t('btn_reject') : 'Rechazar') + '</button>' +
             '<button class="btn-cta-primary" style="font-size:0.85rem;" onclick="APP.acceptProposal(\'' + prop.id + '\')">' + (window.I18N ? window.I18N.t('btn_accept_contract') : 'Aceptar Contrato & Activar Escrow →') + '</button>' +
           '</div>';
       } else if (isActive) {
         actionsHtml = 
-          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">' +
+          '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px;">' +
             '<span style="font-size:0.8rem;color:var(--success);font-weight:600;display:inline-flex;align-items:center;gap:6px;">' + getIcon('check', 14) + ' ' + (isDe ? 'PostFinance Treuhandkonto aktiv' : 'Depósito activo en bóveda suiza PostFinance') + '</span>' +
             '<button class="btn-cta-secondary" style="font-size:0.82rem;" onclick="APP.showView(\'roadmap\')">' + (isDe ? 'Zur Roadmap →' : 'Ver Hoja de Ruta →') + '</button>' +
           '</div>';
@@ -633,6 +709,14 @@ var APP = (function() {
     p.estado = 'activo';
     localStorage.setItem('SWISSVZ_PROPOSALS', JSON.stringify(state.proposals));
     updateProposalsBadge();
+
+    // Sincronizar el hito para permitir entrega inmediata
+    if (state.currentProjectData && state.currentProjectData.hitos) {
+      var hitos = state.currentProjectData.hitos;
+      if (hitos.length > 1 && hitos[1].estado === 'bloqueado') {
+        hitos[1].estado = 'en_revision';
+      }
+    }
 
     showToast('success', 
       isDe ? window.I18N.t('toast_contract_active') : '¡Contrato Activado!', 
@@ -878,7 +962,6 @@ var APP = (function() {
   // Modal: Proponer Contrato (Cliente -> Desarrollador)
   function proposeContract(devId, devName, rate) {
     rate = rate || 4600;
-    var isDe = window.I18N && window.I18N.getLang() === 'de';
 
     var content = 
       '<p style="font-size:0.9rem;margin-bottom:18px;line-height:1.6;">' +
@@ -922,13 +1005,11 @@ var APP = (function() {
     localStorage.setItem('SWISSVZ_PROPOSALS', JSON.stringify(state.proposals));
     updateProposalsBadge();
 
-    var isDe = window.I18N && window.I18N.getLang() === 'de';
     var toastTitle = window.I18N ? window.I18N.t('toast_proposal_sent') : 'Propuesta Enviada';
     var toastMsg = window.I18N ? window.I18N.t('toast_proposal_sent_msg', [devName]) : 'Se ha notificado a ' + devName + '. Los fondos quedarán reservados y se activará el proyecto tras su aceptación.';
 
     showToast('success', toastTitle, toastMsg);
 
-    // Si está en la vista de propuestas, actualizar
     if (state.currentView === 'proposals') {
       renderProposalsList();
     }
@@ -947,12 +1028,25 @@ var APP = (function() {
     showView(state.currentView);
   }
 
+  // Listener global para cerrar el dropdown al hacer click fuera
+  document.addEventListener('click', function(e) {
+    var dropdown = document.getElementById('userPickerDropdown');
+    if (dropdown && dropdown.classList.contains('open')) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    }
+  });
+
   return {
     getIcon: getIcon,
     enterApp: enterApp,
     exitToLanding: exitToLanding,
     setRole: setRole,
     switchUser: switchUser,
+    toggleUserDropdown: toggleUserDropdown,
+    closeUserDropdown: closeUserDropdown,
+    selectUserFromMenu: selectUserFromMenu,
     showView: showView,
     setLang: setLang,
     refreshCurrentView: refreshCurrentView,
@@ -963,6 +1057,7 @@ var APP = (function() {
     renderProfileInfo: renderProfileInfo,
     confirmMilestoneRelease: confirmMilestoneRelease,
     executeRelease: executeRelease,
+    submitMilestoneForReview: submitMilestoneForReview,
     openSettingsModal: openSettingsModal,
     toggleApiMask: toggleApiMask,
     closeModal: closeModal,
