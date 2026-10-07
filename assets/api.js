@@ -4,7 +4,7 @@
  */
 
 var API = (function() {
-  var DEFAULT_URL = "https://script.google.com/macros/s/AKfycbx_PLACEHOLDER/exec";
+  var DEFAULT_URL = "https://script.google.com/macros/s/AKfycbzyKvWsOM1Asxzdjdh0OAKbxzojKfUx29uywObF2ZqLFNqkVfdWVh4U6D6j0LFk605M/exec";
   var memoryCache = new Map();
 
   function getApiUrl() {
